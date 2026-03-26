@@ -1,0 +1,26 @@
+import mongoose from "mongoose";
+import { string } from "zod";
+import { required } from "zod/v4/core/util.cjs";
+
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true, 
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        enum: ["admin", "user"],
+        default: "user",
+    },
+});
+
+export const User = mongoose.model("User",userSchema);
