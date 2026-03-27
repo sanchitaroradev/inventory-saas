@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { string } from "zod";
-import { required } from "zod/v4/core/util.cjs";
 
 const userSchema = new mongoose.Schema({
     name: {
