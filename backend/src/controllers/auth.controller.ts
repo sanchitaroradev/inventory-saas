@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
 import bcrypt from "bcrypt";
+import jwt  from "jsonwebtoken";
+import { id } from "zod/v4/locales";
 import { success } from "zod";
 
 // for registering user
@@ -73,10 +75,16 @@ export const loginUser = async (req: Request, res: Response) => {
             })
         }
 
+        const token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET as string,
+            { expiresIn: "1d"}
+        );
+
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            data: user,
+            token,
         });
     }
     catch (error) {
@@ -85,4 +93,11 @@ export const loginUser = async (req: Request, res: Response) => {
             message: "Server error",
         });
     }
+};
+
+export const getProfile = ( req:Request, res: Response) => {
+    return res.status(200).json({
+        success: true,
+        message: "Profile accessed successfully"
+    });
 };
