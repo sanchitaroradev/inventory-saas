@@ -96,8 +96,10 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const getProfile = ( req:Request, res: Response) => {
+    const user = (req as any).user;
+
     return res.status(200).json({
         success: true,
-        message: "Profile accessed successfully"
+        data: user
     });
 };

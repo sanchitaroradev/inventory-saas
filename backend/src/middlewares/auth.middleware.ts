@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { User } from "../models/User";
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+export const protect = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const authHeader = req.headers.authorization;
@@ -21,7 +22,12 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET as string
-        );
+        ) as {id: string};
+
+        // Find user
+        const user = await User.findById(decoded.id).select("-password");
+
+        (req as any).user = user;
 
         next();
     }
