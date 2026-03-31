@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken";
-import { id } from "zod/v4/locales";
-import { success } from "zod";
 
 // for registering user
 export const registerUser = async (req: Request, res: Response) => {
