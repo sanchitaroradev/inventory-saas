@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { Product } from "../models/Product";
-import { success } from "zod";
-import { count } from "node:console";
 
 export const addProduct = async (req: Request, res: Response) => {
     try {
