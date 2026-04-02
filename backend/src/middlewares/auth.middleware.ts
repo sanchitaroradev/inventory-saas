@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
+import { AppError } from "../utils/error";
 
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -9,10 +10,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 
         // Check header exists
         if (!authHeader || !authHeader.startsWith("Bearer")) {
-            return res.status(401).json({
-                success: false,
-                message: "No authorized, no token",
-            });
+            throw new AppError("Not authorized, no token", 401);
         }
 
         // Extract token
@@ -32,9 +30,6 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
         next();
     }
     catch (error) {
-        return res.status(401).json({
-            success: false,
-            message: "Invalid token",
-        });
+        throw new AppError("Token invalid", 401);
     }
-}
+};

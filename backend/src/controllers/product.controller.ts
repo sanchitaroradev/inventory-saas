@@ -1,16 +1,13 @@
 import { Request, Response } from "express";
 import { Product } from "../models/Product";
-
+import { AppError } from "../utils/error";
 export const addProduct = async (req: Request, res: Response) => {
     try {
         const { name, price, stock } = req.body;
 
         // validation
-        if (!name || !price) {
-            return res.status(400).json({
-                success: false,
-                message: "Name and price are required",
-            });
+        if (!name || price <= 0) {
+            throw new AppError("Invalid product data", 400);
         }
         // Logged-in user
         const user = (req as any).user;
@@ -47,6 +44,7 @@ export const getProducts = async ( req: Request, res: Response) => {
             success: true,
             count: products.length,
             data: products,
+            message: "Products fetched successfully",
         });
     } catch (error) {
         return res.status(500).json({
@@ -64,17 +62,11 @@ export const updateProduct = async ( req: Request, res: Response ) => {
         const product = await Product.findById(id);
 
         if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found", 
-            });
+            throw new AppError("Product not found",404);
         }
 
         if (product.createdBy.toString() !== user._id.toString()) {
-            return res.status(403).json({
-                success: false,
-                message: "Not authorized",
-            });
+            throw new AppError("Not authorized", 403);
         }
 
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -85,7 +77,7 @@ export const updateProduct = async ( req: Request, res: Response ) => {
 
         return res.status(200).json({
             success: true,
-            message: "Product updated",
+            message: "Product updated successfully",
             data: updatedProduct,
         });
     } catch (error) {
@@ -104,16 +96,10 @@ export const deleteProduct = async (req: Request, res: Response) => {
         const product = await Product.findById(id);
 
         if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found",
-            });
+            throw new AppError("Product not found", 404);
         }
         if (product.createdBy.toString() !== user._id.toString()) {
-            return res.status(403).json({
-                success: false,
-                message: "Not authorized",
-            });
+            throw new AppError("Not authorized", 403);
         }
 
         await Product.findByIdAndDelete(id);

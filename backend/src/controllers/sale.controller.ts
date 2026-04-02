@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Sale } from "../models/Sale";
 import { Product } from "../models/Product";
+import { AppError } from "../utils/error";
 
 export const createSale = async (req: Request, res: Response) => {
     try {
@@ -8,36 +9,24 @@ export const createSale = async (req: Request, res: Response) => {
         const user = (req as any).user;
 
         // validation
-        if (!productId || !quantity) {
-            return res.status(400).json({
-                success: false,
-                message: "Product and quantity are required",
-            });
+        if (!productId || quantity <= 0) {
+            throw new AppError("Invalid sale data", 400);
         }
         // Find product
         const product = await Product.findById(productId);
 
         if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found",
-            });
+            throw new AppError("Product not found", 404);
         }
 
         // ownership check
         if (product.createdBy.toString() !== user._id.toString()) {
-            return res.status(403).json({
-                success: false,
-                message: "Not authorized",
-            });
+            throw new AppError("Not authorized", 403);
         }
 
         // stock check 
         if (product.stock < quantity) {
-            return res.status(400).json({
-                success: false,
-                message: "Not enough stock",
-            });
+            throw new AppError("Not enough stock", 400);
         }
 
         // calculate total
@@ -57,7 +46,7 @@ export const createSale = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             success: true,
-            message: "Sale completed",
+            message: "Sale completed successfully",
             data: sale,
         });
 
@@ -81,6 +70,7 @@ export const getMySales = async (req: Request, res: Response) => {
             success: true,
             count: sales.length,
             data: sales,
+            message: "Sales history fetched successfully",
         });
     } catch (error) {
         return res.status(500).json({
@@ -108,14 +98,17 @@ export const getDashboard = async (req: Request, res: Response) => {
         const totalSales = sales.length;
         return res.status(200).json({
             success: true,
-            totalRevenue,
-            totalSales,
+            message: "Dashboard data fetched successfully",
+            data: {
+                totalRevenue,
+                totalSales,
+            },
         });
     }
     catch (error) {
         return res.status(500).json({
             success: false,
             message: "Server error",
-        });    
+        });
     }
 };
