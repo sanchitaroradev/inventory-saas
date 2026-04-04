@@ -2,18 +2,15 @@ import { Request, Response } from "express";
 import { Sale } from "../models/Sale";
 import { Product } from "../models/Product";
 import { AppError } from "../utils/error";
+import { saleSchema } from "../validations/sale.validation";
 
 export const createSale = async (req: Request, res: Response) => {
     try {
-        const { productId, quantity } = req.body;
         const user = (req as any).user;
+        const validatedData = saleSchema.parse(req.body);
 
-        // validation
-        if (!productId || quantity <= 0) {
-            throw new AppError("Invalid sale data", 400);
-        }
         // Find product
-        const product = await Product.findById(productId);
+        const product = await Product.findById(validatedData.productId);
 
         if (!product) {
             throw new AppError("Product not found", 404);
@@ -25,21 +22,20 @@ export const createSale = async (req: Request, res: Response) => {
         }
 
         // stock check 
-        if (product.stock < quantity) {
+        if (product.stock < validatedData.quantity) {
             throw new AppError("Not enough stock", 400);
         }
 
         // calculate total
-        const totalAmount = product.price * quantity;
+        const totalAmount = product.price * validatedData.quantity;
 
         // reduce stock
-        product.stock -= quantity;
+        product.stock -= validatedData.quantity;
         await product.save();
 
         // create sale
         const sale = await Sale.create({
-            productId,
-            quantity,
+            ...validatedData,
             totalAmount,
             createdBy: user._id,
         });
@@ -51,10 +47,7 @@ export const createSale = async (req: Request, res: Response) => {
         });
 
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 
@@ -73,10 +66,7 @@ export const getMySales = async (req: Request, res: Response) => {
             message: "Sales history fetched successfully",
         });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 
@@ -106,9 +96,6 @@ export const getDashboard = async (req: Request, res: Response) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };

@@ -3,23 +3,23 @@ import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt  from "jsonwebtoken";
 import { AppError } from "../utils/error";
+import { registerschema, loginSchema } from "../validations/auth.validation";
 
 // for registering user
 export const registerUser = async (req: Request, res: Response) => {
     try{
-        const {name, email, password} = req.body
-        if(!name || !email || !password) {
-            throw new AppError("All fields are required",400);
-        }
-        const existingUser = await User.findOne({email});
+        const validatedData = registerschema.parse(req.body);
+
+        const existingUser = await User.findOne({email: validatedData.email});
 
         if (existingUser) {
             throw new AppError("Email already exists", 400);
         }
-        const hashedPassword = await bcrypt.hash(password,10); 
+
+        const hashedPassword = await bcrypt.hash(validatedData.password,10); 
+
         const user = await User.create({
-            name,
-            email,
+            ...validatedData,
             password: hashedPassword,
         });
         return res.status(201).json({
@@ -30,31 +30,23 @@ export const registerUser = async (req: Request, res: Response) => {
     }
     catch (error) {
         throw error;
-        // return res.status(500).json({
-        //     success: false,
-        //     message: "Server error",
-        // })
     }
 }
 
 // when user login
 export const loginUser = async (req: Request, res: Response) => {
     try{
-        const {email, password} = req.body;
+        const validatedData = loginSchema.parse(req.body);
 
-        // Validation
-        if(!email || !password) {
-            throw new AppError("Email and password are required", 400);
-        }
         // Checking user exists
-        const user = await User.findOne({email});
+        const user = await User.findOne({email: validatedData.email});
 
         if(!user){
             throw new AppError("Invalid email or password", 400);
         }
 
         // Compare password
-        const isMatch = await bcrypt.compare(password,user.password);
+        const isMatch = await bcrypt.compare(validatedData.password,user.password);
 
         if(!isMatch) {
             throw new AppError("Invalid email or password", 400);
@@ -73,10 +65,7 @@ export const loginUser = async (req: Request, res: Response) => {
         });
     }
     catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 

@@ -1,21 +1,17 @@
 import { Request, Response } from "express";
 import { Product } from "../models/Product";
 import { AppError } from "../utils/error";
+import { productschema } from "../validations/product.validation";
+
 export const addProduct = async (req: Request, res: Response) => {
     try {
-        const { name, price, stock } = req.body;
+        const validatedData = productschema.parse(req.body);
 
-        // validation
-        if (!name || price <= 0) {
-            throw new AppError("Invalid product data", 400);
-        }
         // Logged-in user
         const user = (req as any).user;
 
         const product = await Product.create({
-            name,
-            price,
-            stock,
+            ...validatedData,
             createdBy: user._id,
         });
 
@@ -25,20 +21,17 @@ export const addProduct = async (req: Request, res: Response) => {
             data: product,
         });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 
-export const getProducts = async ( req: Request, res: Response) => {
-    try{
+export const getProducts = async (req: Request, res: Response) => {
+    try {
         const user = (req as any).user;
 
         const products = await Product.find({
             createdBy: user._id,
-        }).select("name price stock _id") 
+        }).select("name price stock _id")
 
         return res.status(200).json({
             success: true,
@@ -47,22 +40,19 @@ export const getProducts = async ( req: Request, res: Response) => {
             message: "Products fetched successfully",
         });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 
-export const updateProduct = async ( req: Request, res: Response ) => {
+export const updateProduct = async (req: Request, res: Response) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const user = (req as any).user
 
         const product = await Product.findById(id);
 
         if (!product) {
-            throw new AppError("Product not found",404);
+            throw new AppError("Product not found", 404);
         }
 
         if (product.createdBy.toString() !== user._id.toString()) {
@@ -72,7 +62,7 @@ export const updateProduct = async ( req: Request, res: Response ) => {
         const updatedProduct = await Product.findByIdAndUpdate(
             id,
             req.body,
-            {new: true}
+            { new: true }
         );
 
         return res.status(200).json({
@@ -81,16 +71,13 @@ export const updateProduct = async ( req: Request, res: Response ) => {
             data: updatedProduct,
         });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
 
 export const deleteProduct = async (req: Request, res: Response) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const user = (req as any).user;
 
         const product = await Product.findById(id);
@@ -109,9 +96,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
             message: "Product deleted successfully",
         });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-        });
+        throw error;
     }
 };
