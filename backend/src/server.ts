@@ -6,10 +6,22 @@ import authRoutes from "./routes/auth.route";
 import productRoutes from "./routes/product.route";
 import saleRoutes from "./routes/sale.route";
 import { errorHandler } from "./middlewares/error.middleware";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 
+const limiter = rateLimit({
+    windowMs: 15*60*1000,
+    max:100,
+    message: "Too many requests, please try again later",
+});
+
 app.use(express.json());
+app.use(helmet());
+app.use(cors());
+app.use(limiter);
 app.use("/api/auth",authRoutes);
 app.use("/api/products",productRoutes);
 app.use("/api/sales",saleRoutes)
@@ -20,7 +32,8 @@ const PORT = process.env.PORT || 5000;
 
 app.get("/",(req,res)=>{
     res.json({
-        message: "Server is running successfully"
+        success: true,
+        message: "Server is running successfully",
     });
 })
 

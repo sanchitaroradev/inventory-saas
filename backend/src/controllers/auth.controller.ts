@@ -25,7 +25,11 @@ export const registerUser = async (req: Request, res: Response) => {
         return res.status(201).json({
             success: true,
             message: "User registered successfully",
-            data: user,
+            data: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+            },
         })
     }
     catch (error) {
@@ -39,7 +43,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const validatedData = loginSchema.parse(req.body);
 
         // Checking user exists
-        const user = await User.findOne({email: validatedData.email});
+        const user = await User.findOne({email: validatedData.email}).select("+password");
 
         if(!user){
             throw new AppError("Invalid email or password", 400);
@@ -61,7 +65,9 @@ export const loginUser = async (req: Request, res: Response) => {
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            token,
+            data: {
+                token,
+            },
         });
     }
     catch (error) {
@@ -74,7 +80,7 @@ export const getProfile = ( req:Request, res: Response) => {
 
     return res.status(200).json({
         success: true,
-        data: user,
         message: "Profile fetched successfully",
+        data: user,
     });
 };
