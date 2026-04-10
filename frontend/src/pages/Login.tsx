@@ -1,48 +1,79 @@
 import { useState } from "react";
 import { loginUser } from "../services/authservice";
+import toast from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleLogin = async () => {
     try {
       const data = await loginUser(email, password);
-      console.log("Login success", data);
+      toast.success("Login successful 🎉")
+      console.log(data);
     } catch (error: any) {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen bg-linear-to-r from-slate-100 via-gray-200 to-slate-300">
+    <div className={`flex items-center justify-center h-screen 
+    ${theme === "dark" ? "bg-slate-900" : "bg-linear-to-r from-slate-100 via-gray-200 to-slate-300"
+      }`}>
+
+      <div className="absolute top-5 right-5">
+        <button
+          onClick={toggleTheme}
+          className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm">
+          {theme === "dark" ? "Light ☀️" : "Dark 🌙"}
+        </button>
+      </div>
       {/* Card */}
-      <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-xl w-87.5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+      <div className={` p-8 rounded-2xl w-87.5 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${theme === "dark" ? "bg-white/10 backdrop-blur-lg shadow-emerald-400/20" : "bg-white/70 backdrop-blur-md shadow-xl"
+        }`}>
         {/* Title */}
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Inventory Login </h2>
+        <h2 className={`text-2xl font-bold  mb-6 text-center ${theme === "dark" ? "text-white" : "text-gray-800"
+          }`}>Inventory Login </h2>
 
         {/* Email */}
-        <input 
-        type="email"
-        placeholder="Enter email"
-        className="w-full mb-4 p-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400" 
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        <input
+          type="email"
+          placeholder="Enter email"
+          className={`w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 ${theme === "dark" ? "bg-slate-800 text-white border-slate-600" : "bg-white border-gray-300"
+            }`}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         {/* Password */}
-        <input 
-        type="password" 
-        placeholder="Enter password"
-        className="w-full mb-6 p-3 rounded-lg bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="relative mb-6">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            className={`w-full mb-6 p-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-emerald-400 ${theme === "dark" ? "bg-slate-800 text-white border-slate-600" : "bg-white border-gray-300"
+              }`}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
+          {/* Eye button */}
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-2 top-4 cursor-pointer text-gray-500"
+          >{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
         {/* Login Button */}
-        <button 
-        onClick={handleLogin}
-        className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold">
+        <button
+          onClick={handleLogin}
+          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold">
           Login
         </button>
       </div>
