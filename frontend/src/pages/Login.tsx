@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { loginUser } from "../services/authservice";
-import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,10 +10,14 @@ const Login = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
+  
   const handleLogin = async () => {
     try {
       const data = await loginUser(email, password);
-      toast.success("Login successful 🎉")
+      localStorage.setItem("token", data.data.token);
+      toast.success("Login successful 🎉");
+      navigate("/dashboard");
       console.log(data);
     } catch (error: any) {
       toast.error(error.message);
