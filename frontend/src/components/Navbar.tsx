@@ -10,7 +10,7 @@ const Navbar = () => {
     };
 
   return (
-    <div className="flex justify-between items-center bg-white shadow-md px-6 py-3">
+    <div className="flex justify-between items-center bg-white/70 backdrop-blur-md shadow-md px-8 py-4">
 
         {/* Logo */}
         <h1 className="text-xl font-bold text-emerald-600">Inventory Saas</h1>

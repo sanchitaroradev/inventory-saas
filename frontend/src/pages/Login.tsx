@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../services/authservice";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Sun , Moon } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -36,8 +36,19 @@ const Login = () => {
       <div className="absolute top-5 right-5">
         <button
           onClick={toggleTheme}
-          className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm">
-          {theme === "dark" ? "Light ☀️" : "Dark 🌙"}
+          className="flex items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm">
+          {theme === "dark" ? (
+            <>
+            <span>Light</span> 
+            <Sun size={16}/>
+            </>
+          ) : (
+            <>
+            <span>Dark</span> 
+            <Moon size={16}/>
+            </>
+          )
+          }
         </button>
       </div>
       {/* Card */}
