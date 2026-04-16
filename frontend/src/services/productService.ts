@@ -38,3 +38,43 @@ export const createProduct = async (productData: any) => {
 
     return data;
 };
+
+export const deleteProduct = async (id:string) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await res.json();
+
+    if(!res.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+};
+
+export const updateProduct = async (id:string, productData: any) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(productData),
+    });
+
+    const data = await res.json();
+
+    if(!res.ok) {
+        throw new Error(data.message);
+    }
+
+    return data;
+};

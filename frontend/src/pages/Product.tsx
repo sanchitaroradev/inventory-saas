@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
-import { Check, IndianRupee, Plus } from "lucide-react";
-import { createProduct, getProducts } from "../services/productService";
+import { IndianRupee, Plus, Trash2, Pencil } from "lucide-react";
+import { createProduct, getProducts, deleteProduct, updateProduct } from "../services/productService";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -10,6 +10,7 @@ const Product = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [stock, setStock] = useState("");
+    const [editId, setEditId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -33,28 +34,64 @@ const Product = () => {
                 stock: Number(stock),
             };
 
-            await createProduct(newProduct);
+            // Update
+            if (editId) {
+                await updateProduct(editId, newProduct);
 
-            toast.success("Product added", {
-                icon: <Check size={20} />
-            });
+                toast.success("Product updated");
 
-            console.log(newProduct);
+                // UI Update
+                setProducts((prev) => prev.map((p) => p._id === editId ? { ...p, ...newProduct } : p));
 
-            // reset fields
-            setName("");
-            setPrice("");
-            setStock("");
+                setEditId(null);
+            }
 
-            // refresh list
-            const data = await getProducts();
-            console.log(data)
-            setProducts(data.data.products);
+            else {
+                await createProduct(newProduct);
+
+                toast.success("Product added");
+            
+                const data = await getProducts();
+                setProducts(data.data.products);
+
+                // reset fields
+                setName("");
+                setPrice("");
+                setStock("");
+
+            }
 
         } catch (error: any) {
             toast.error(error.message);
         }
     };
+
+    const handleDelete = async (id: string) => {
+
+        // confirm delete popup
+        const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+
+        if (!confirmDelete) return;
+
+        try {
+            await deleteProduct(id);
+
+            toast.success("Product deleted");
+
+            setProducts((prev) => prev.filter((p) => p._id !== id));
+        } catch (error: any) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleEdit = (product: any) => {
+        setEditId(product._id);
+
+        // form pre-fill
+        setName(product.name);
+        setPrice(product.price.toString());
+        setStock(product.stock.toString());
+    }
 
     return (
         <div className="min-h-screen bg-linear-to-br from-slate-100 via-gray-200 to-slate-300">
@@ -89,8 +126,8 @@ const Product = () => {
                     <button
                         type="button"
                         onClick={handleAddProduct}
-                        className="flex items-center justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
-                        Add Product
+                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
+                        {editId? "Update Product" : "Add Product"}
                         <Plus size={17} />
                     </button>
                 </div>
@@ -103,13 +140,32 @@ const Product = () => {
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border rounded-lg mb-3 bg-white"
+                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center"
                             >
-                                <h3 className="font-semibold">{product.name}</h3>
-                                <p className="flex items-center text-2xl mt-2 font-bold">
-                                    <IndianRupee size={21} />
-                                    {product.price}
-                                </p>
+                                <div>
+                                    <h3 className="font-semibold">{product.name}</h3>
+                                    <p className="flex items-center gap-1 text-2xl mt-2 font-bold">
+                                        <IndianRupee size={21} />
+                                        {product.price}
+                                    </p>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    {/* Edit */}
+                                    <button
+                                        onClick={() => handleEdit(product)}
+                                        className="text-blue-500 cursor-pointer">
+                                        <Pencil size={18} />
+                                    </button>
+
+                                    {/* Delete Button */}
+                                    <button
+                                        onClick={() => handleDelete(product._id)}
+                                        className="text-red-500 cursor-pointer hover:text-red-700"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
                             </div>
                         ))
                     )}
