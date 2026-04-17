@@ -11,6 +11,7 @@ const Product = () => {
     const [price, setPrice] = useState("");
     const [stock, setStock] = useState("");
     const [editId, setEditId] = useState<string | null>(null);
+    const [isEditOpen, setIsEditOpen] = useState(false);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -44,13 +45,14 @@ const Product = () => {
                 setProducts((prev) => prev.map((p) => p._id === editId ? { ...p, ...newProduct } : p));
 
                 setEditId(null);
+                setIsEditOpen(false);
             }
 
             else {
                 await createProduct(newProduct);
 
                 toast.success("Product added");
-            
+
                 const data = await getProducts();
                 setProducts(data.data.products);
 
@@ -87,10 +89,11 @@ const Product = () => {
     const handleEdit = (product: any) => {
         setEditId(product._id);
 
-        // form pre-fill
         setName(product.name);
         setPrice(product.price.toString());
         setStock(product.stock.toString());
+
+        setIsEditOpen(true);
     }
 
     return (
@@ -107,19 +110,21 @@ const Product = () => {
                     <input
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                        placeholder="Product name"
+                        placeholder="Enter product name"
                         className="w-full mb-3 p-2 border rounded-lg"
                     />
                     <input
                         value={price}
+                        type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
-                        placeholder="Price"
+                        placeholder="Enter product price"
                         className="w-full mb-3 p-2 border rounded-lg"
                     />
                     <input
                         value={stock}
+                        type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
-                        placeholder="Stock"
+                        placeholder="Enter product Stock"
                         className="w-full mb-3 p-2 border rounded-lg"
                     />
 
@@ -127,7 +132,7 @@ const Product = () => {
                         type="button"
                         onClick={handleAddProduct}
                         className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
-                        {editId? "Update Product" : "Add Product"}
+                        Add Product
                         <Plus size={17} />
                     </button>
                 </div>
@@ -172,6 +177,67 @@ const Product = () => {
                 </div>
 
             </div>
+            {isEditOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+
+                    <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
+
+                        <h2 className="text-xl font-semibold mb-4 text-center">
+                            Edit Product
+                        </h2>
+
+                        <input
+                            value={name}
+                            placeholder="Enter product name"
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full mb-3 p-2 border rounded-lg"
+                        />
+
+                        <input
+                            value={price}
+                            placeholder="Enter product price"
+                            type="number"
+                            onChange={(e) => setPrice(e.target.value)}
+                            className="w-full mb-3 p-2 border rounded-lg"
+                        />
+
+                        <input
+                            value={stock}
+                            placeholder="Enter product stock"
+                            type="number"
+                            onChange={(e) => setStock(e.target.value)}
+                            className="w-full mb-4 p-2 border rounded-lg"
+                        />
+
+                        <div className="flex justify-between">
+
+                            {/* SAVE */}
+                            <button
+                                onClick={handleAddProduct}
+                                className="bg-emerald-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+                            >
+                                Save
+                            </button>
+
+                            {/* CANCEL */}
+                            <button
+                                onClick={() => {
+                                    setIsEditOpen(false);
+                                    setEditId(null);
+                                    setName("");
+                                    setPrice("");
+                                    setStock("");
+                                }}
+                                className="bg-red-400 text-white px-4 py-2 rounded-lg cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

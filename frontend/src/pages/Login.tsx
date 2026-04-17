@@ -89,7 +89,7 @@ const Login = () => {
         {/* Login Button */}
         <button
           onClick={handleLogin}
-          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold">
+          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold cursor-pointer">
           Login
         </button>
       </div>
