@@ -9,11 +9,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   
   const handleLogin = async () => {
+
+    if (loading) return;
+    
     try {
+      setLoading(true);
+
       const data = await loginUser(email, password);
       localStorage.setItem("token", data.data.token);
       toast.success("Login successful 🎉");
@@ -21,6 +27,8 @@ const Login = () => {
       console.log(data);
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,8 +97,9 @@ const Login = () => {
         {/* Login Button */}
         <button
           onClick={handleLogin}
-          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold cursor-pointer">
-          Login
+          disabled = {loading}
+          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
+          {loading ? "Logging in..." : "Login"}
         </button>
       </div>
     </div>

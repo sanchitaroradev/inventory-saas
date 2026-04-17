@@ -12,6 +12,8 @@ const Product = () => {
     const [stock, setStock] = useState("");
     const [editId, setEditId] = useState<string | null>(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -27,8 +29,43 @@ const Product = () => {
         fetchProducts();
     }, [])
 
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsEditOpen(false);
+                setEditId(null);
+                setName("");
+                setPrice("");
+                setStock("");
+            }
+        };
+
+        window.addEventListener("keydown", handleEsc);
+
+        return () => window.removeEventListener("keydown", handleEsc);
+    }, []);
+
     const handleAddProduct = async () => {
+
+        if (!name || !price || !stock) {
+            toast.error("All fields are required");
+            return;
+        }
+
+        if (Number(price) <= 0) {
+            toast.error("Price must be greater than 0");
+            return;
+        }
+
+        if (Number(stock) < 0) {
+            toast.error("Stock cannot be negative");
+            return;
+        }
+
         try {
+
+            setLoading(true);
+
             const newProduct = {
                 name,
                 price: Number(price),
@@ -39,7 +76,7 @@ const Product = () => {
             if (editId) {
                 await updateProduct(editId, newProduct);
 
-                toast.success("Product updated");
+                toast.success("Product updated successfully");
 
                 // UI Update
                 setProducts((prev) => prev.map((p) => p._id === editId ? { ...p, ...newProduct } : p));
@@ -65,26 +102,26 @@ const Product = () => {
 
         } catch (error: any) {
             toast.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleDelete = async (id: string) => {
+    // const handleDelete = async (id: string) => {
+    //     try {
+    //         await deleteProduct(id);
 
-        // confirm delete popup
-        const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    //         toast.success("Product deleted successfully");
 
-        if (!confirmDelete) return;
+    //         setProducts((prev) => prev.filter((p) => p._id !== id));
+    //     } catch (error: any) {
+    //         toast.error(error.message);
+    //     }
+    // };
 
-        try {
-            await deleteProduct(id);
-
-            toast.success("Product deleted");
-
-            setProducts((prev) => prev.filter((p) => p._id !== id));
-        } catch (error: any) {
-            toast.error(error.message);
-        }
-    };
+    const handleDeleteClick = (id: string) => {
+        setDeleteId(id);
+    }
 
     const handleEdit = (product: any) => {
         setEditId(product._id);
@@ -111,28 +148,29 @@ const Product = () => {
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         placeholder="Enter product name"
-                        className="w-full mb-3 p-2 border rounded-lg"
+                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={price}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         placeholder="Enter product price"
-                        className="w-full mb-3 p-2 border rounded-lg"
+                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={stock}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
                         placeholder="Enter product Stock"
-                        className="w-full mb-3 p-2 border rounded-lg"
+                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
 
                     <button
                         type="button"
                         onClick={handleAddProduct}
-                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition">
-                        Add Product
+                        disabled={loading}
+                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 active:scale-95 transition disabled:opacity-50">
+                        {loading ? (editId ? "Updating..." : "Adding...") : "Add"}
                         <Plus size={17} />
                     </button>
                 </div>
@@ -140,12 +178,14 @@ const Product = () => {
                 <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-lg">
                     <h2 className="text-lg font-semibold mb-4">Product List</h2>
                     {products.length === 0 ? (
-                        <p>No products yet</p>
+                        <p className="text-gray-500 text-center py-4">
+                            No products yet. Start by adding one
+                        </p>
                     ) : (
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center"
+                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center transition transform hover:-translate-y-1 hover:shadow-lg "
                             >
                                 <div>
                                     <h3 className="font-semibold">{product.name}</h3>
@@ -156,7 +196,7 @@ const Product = () => {
                                 </div>
 
                                 <div className="flex gap-3">
-                                    {/* Edit */}
+                                    {/* Edit Button*/}
                                     <button
                                         onClick={() => handleEdit(product)}
                                         className="text-blue-500 cursor-pointer">
@@ -165,7 +205,7 @@ const Product = () => {
 
                                     {/* Delete Button */}
                                     <button
-                                        onClick={() => handleDelete(product._id)}
+                                        onClick={() => handleDeleteClick(product._id)}
                                         className="text-red-500 cursor-pointer hover:text-red-700"
                                     >
                                         <Trash2 size={18} />
@@ -177,10 +217,22 @@ const Product = () => {
                 </div>
 
             </div>
+            {/* Edit model */}
             {isEditOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+                <div
+                    className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 transition"
+                    onClick={() => {
+                        setIsEditOpen(false);
+                        setEditId(null);
+                        setName("");
+                        setPrice("");
+                        setStock("");
+                    }}
+                >
 
-                    <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
                         <h2 className="text-xl font-semibold mb-4 text-center">
                             Edit Product
@@ -190,7 +242,7 @@ const Product = () => {
                             value={name}
                             placeholder="Enter product name"
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg"
+                            className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -198,7 +250,7 @@ const Product = () => {
                             placeholder="Enter product price"
                             type="number"
                             onChange={(e) => setPrice(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg"
+                            className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -206,7 +258,7 @@ const Product = () => {
                             placeholder="Enter product stock"
                             type="number"
                             onChange={(e) => setStock(e.target.value)}
-                            className="w-full mb-4 p-2 border rounded-lg"
+                            className="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <div className="flex justify-between">
@@ -214,9 +266,10 @@ const Product = () => {
                             {/* SAVE */}
                             <button
                                 onClick={handleAddProduct}
-                                className="bg-emerald-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+                                disabled={loading}
+                                className="bg-emerald-500 text-white px-4 py-2 rounded-lg cursor-pointer disabled:opacity-50"
                             >
-                                Save
+                                {loading ? "Saving" : "Save"}
                             </button>
 
                             {/* CANCEL */}
@@ -231,6 +284,64 @@ const Product = () => {
                                 className="bg-red-400 text-white px-4 py-2 rounded-lg cursor-pointer"
                             >
                                 Cancel
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
+            {/* Delete model */}
+            {deleteId && (
+                <div 
+                className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50"
+                onClick={ () => setDeleteId(null)}
+                >
+
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl"
+                    >
+
+                        <h2 className="text-lg font-semibold mb-4 text-center">
+                            Delete Product
+                        </h2>
+
+                        <p className="text-gray-500 text-center mb-6">
+                            Are you sure you want to delete this product?
+                        </p>
+
+                        <div className="flex justify-between">
+
+                            {/* CANCEL */}
+                            <button
+                                onClick={() => setDeleteId(null)}
+                                className="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+
+                            {/* DELETE */}
+                            <button
+                                onClick={async () => {
+                                    try {
+                                        await deleteProduct(deleteId);
+
+                                        setProducts((prev) =>
+                                            prev.filter((p) => p._id !== deleteId)
+                                        );
+
+                                        toast.success("Product deleted");
+                                        setDeleteId(null);
+
+                                    } catch (error: any) {
+                                        toast.error(error.message);
+                                    }
+                                }}
+                                className="bg-red-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+                            >
+                                Delete
                             </button>
 
                         </div>
