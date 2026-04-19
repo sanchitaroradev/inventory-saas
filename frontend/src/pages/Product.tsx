@@ -107,18 +107,6 @@ const Product = () => {
         }
     };
 
-    // const handleDelete = async (id: string) => {
-    //     try {
-    //         await deleteProduct(id);
-
-    //         toast.success("Product deleted successfully");
-
-    //         setProducts((prev) => prev.filter((p) => p._id !== id));
-    //     } catch (error: any) {
-    //         toast.error(error.message);
-    //     }
-    // };
-
     const handleDeleteClick = (id: string) => {
         setDeleteId(id);
     }
@@ -148,28 +136,28 @@ const Product = () => {
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         placeholder="Enter product name"
-                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={price}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         placeholder="Enter product price"
-                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={stock}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
                         placeholder="Enter product Stock"
-                        className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
 
                     <button
                         type="button"
                         onClick={handleAddProduct}
                         disabled={loading}
-                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 active:scale-95 transition disabled:opacity-50">
+                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
                         {loading ? (editId ? "Updating..." : "Adding...") : "Add"}
                         <Plus size={17} />
                     </button>
@@ -185,7 +173,7 @@ const Product = () => {
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center transition transform hover:-translate-y-1 hover:shadow-lg "
+                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg "
                             >
                                 <div>
                                     <h3 className="font-semibold">{product.name}</h3>
@@ -199,14 +187,14 @@ const Product = () => {
                                     {/* Edit Button*/}
                                     <button
                                         onClick={() => handleEdit(product)}
-                                        className="text-blue-500 cursor-pointer">
+                                        className="text-blue-500 cursor-pointer hover:scale-110 transition duration-150">
                                         <Pencil size={18} />
                                     </button>
 
                                     {/* Delete Button */}
                                     <button
                                         onClick={() => handleDeleteClick(product._id)}
-                                        className="text-red-500 cursor-pointer hover:text-red-700"
+                                        className="text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150"
                                     >
                                         <Trash2 size={18} />
                                     </button>
@@ -242,7 +230,7 @@ const Product = () => {
                             value={name}
                             placeholder="Enter product name"
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -250,7 +238,7 @@ const Product = () => {
                             placeholder="Enter product price"
                             type="number"
                             onChange={(e) => setPrice(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -258,7 +246,7 @@ const Product = () => {
                             placeholder="Enter product stock"
                             type="number"
                             onChange={(e) => setStock(e.target.value)}
-                            className="w-full mb-4 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-4 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <div className="flex justify-between">
@@ -267,7 +255,7 @@ const Product = () => {
                             <button
                                 onClick={handleAddProduct}
                                 disabled={loading}
-                                className="bg-emerald-500 text-white px-4 py-2 rounded-lg cursor-pointer disabled:opacity-50"
+                                className="bg-emerald-500 hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 text-white px-4 py-2 rounded-lg cursor-pointer disabled:opacity-50"
                             >
                                 {loading ? "Saving" : "Save"}
                             </button>
@@ -281,7 +269,7 @@ const Product = () => {
                                     setPrice("");
                                     setStock("");
                                 }}
-                                className="bg-red-400 text-white px-4 py-2 rounded-lg cursor-pointer"
+                                className="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-500 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50"
                             >
                                 Cancel
                             </button>
@@ -294,14 +282,14 @@ const Product = () => {
 
             {/* Delete model */}
             {deleteId && (
-                <div 
-                className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50"
-                onClick={ () => setDeleteId(null)}
+                <div
+                    className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 transition duration-200"
+                    onClick={() => setDeleteId(null)}
                 >
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl"
+                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]"
                     >
 
                         <h2 className="text-lg font-semibold mb-4 text-center">
