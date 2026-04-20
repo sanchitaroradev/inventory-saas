@@ -4,6 +4,7 @@ import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import Product from './pages/Product';
+import Signup from './pages/Signup';
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Login />} />
+        <Route path='/signup' element= {<Signup />} />
         <Route
           path='/dashboard'
           element={

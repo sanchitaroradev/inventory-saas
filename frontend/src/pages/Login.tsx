@@ -22,7 +22,7 @@ const Login = () => {
 
       const data = await loginUser(email, password);
       localStorage.setItem("token", data.data.token);
-      toast.success("Login successful 🎉");
+      toast.success("Login successful");
       navigate("/dashboard");
       console.log(data);
     } catch (error: any) {
@@ -98,9 +98,19 @@ const Login = () => {
         <button
           onClick={handleLogin}
           disabled = {loading}
-          className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
+          className=" w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        <p className={`text-center text-sm mt-5 ${theme === "dark" ? "text-gray-300" : "text-gray-700" }`}>
+          Dont have an account? {""}
+          <span
+          onClick={() => navigate("/signup")}
+          className="text-emerald-600 cursor-pointer hover:underline"
+          >
+            Signup
+          </span>
+        </p>
       </div>
     </div>
   );
