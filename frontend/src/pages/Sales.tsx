@@ -44,7 +44,7 @@ const Sales = () => {
       return;
     }
 
-    toast.success("Sale created (logic next step)");
+    toast.success("Sale created");
   };
 
   return (
@@ -99,10 +99,7 @@ const Sales = () => {
             {/* Button */}
             <button
               onClick={handleSell}
-              className="w-full bg-emerald-500 text-white py-3 rounded-lg 
-              hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 
-              active:scale-95 transition duration-150"
-            >
+              className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
               Sell Product
             </button>
 
