@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import Product from './pages/Product';
 import Signup from './pages/Signup';
+import Sales from './pages/Sales';
 
 function App() {
 
@@ -22,6 +23,8 @@ function App() {
           }
         />
         <Route path="/products" element={<Product />} />
+        <Route path="/sales" element={<Sales />} />
+
       </Routes>
     </>
   );
