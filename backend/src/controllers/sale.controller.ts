@@ -93,20 +93,27 @@ export const getDashboard = async (req: Request, res: Response) => {
 
         const sales = await Sale.find({
             createdBy: user._id,
-        }).select("totaLAmount").lean();
+        }).select("totalAmount").lean();
 
         // total revenue
         const totalRevenue = sales.reduce(
-            (sum, sale) => sum + sale.totalAmount,
+            (sum, sale) => sum + (sale.totalAmount || 0),
             0
         );
 
         // total products sold
         const totalSales = sales.length;
+
+        // Product count
+        const totalProducts = await Product.countDocuments({
+            createdBy: user._id,
+        });
+
         return res.status(200).json({
             success: true,
             message: "Dashboard data fetched successfully",
             data: {
+                totalProducts,
                 totalRevenue,
                 totalSales,
             },
