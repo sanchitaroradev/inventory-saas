@@ -1,6 +1,33 @@
 import Navbar from "../components/Navbar";
 import { IndianRupee } from "lucide-react";
+import { getDashboard } from "../services/dashboardService";
+import { useState, useEffect } from "react";
+
 const Dashboard = () => {
+
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalSales: 0,
+    totalRevenue: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await getDashboard();
+        setStats({
+          totalProducts: data.data.totalProducts || 0,
+          totalSales: data.data.totalSales || 0,
+          totalRevenue: data.data.totalRevenue || 0,
+        });
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+
+    fetchStats();
+  }, [])
+
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-100 via-gray-200 to-slate-300">
@@ -15,13 +42,13 @@ const Dashboard = () => {
           {/* Card 1 */}
           <div className="bg-white/70 backdrop-blur-md shadow-lg p-6 rounded-xl hover:shadow-xl transition">
             <h2 className="text-lg font-semibold text-gray-700">Total products</h2>
-            <p className="text-2xl mt-2 font-bold">0</p>
+            <p className="text-2xl mt-2 font-bold">{stats.totalProducts}</p>
           </div>
 
           {/* Card 2 */}
           <div className="bg-white/70 backdrop-blur-md shadow-lg p-6 rounded-xl hover:shadow-xl transition">
             <h2 className="text-lg font-semibold text-gray-700">Total sales</h2>
-            <p className="text-2xl mt-2 font-bold">0</p>
+            <p className="text-2xl mt-2 font-bold">{stats.totalSales}</p>
           </div>
 
           {/* Card 3 */}
@@ -29,7 +56,7 @@ const Dashboard = () => {
             <h2 className="text-lg font-semibold text-gray-700">Revenue</h2>
             <p className="flex items-center text-2xl mt-2 font-bold ">
               <IndianRupee size={21} />
-              <span>0</span>
+              <span>{stats.totalRevenue}</span>
             </p>
           </div>
         </div>

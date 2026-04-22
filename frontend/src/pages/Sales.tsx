@@ -2,12 +2,14 @@ import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { getProducts } from "../services/productService";
 import toast from "react-hot-toast";
+import { createSale, getSales } from "../services/saleService";
 
 const Sales = () => {
 
   const [products, setProducts] = useState<any[]>([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [sales, setSales] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,14 +23,27 @@ const Sales = () => {
 
     fetchProducts();
   }, []);
- 
+
+  useEffect(() => {
+    const fetchSales = async () => {
+      try {
+        const data = await getSales();
+        setSales(data.data.sales);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSales();
+  }, []);
+
   const selected = products.find(p => p._id === selectedProduct);
 
   const total = selected && quantity
     ? selected.price * Number(quantity)
     : 0;
 
-  const handleSell = () => {
+  const handleSell = async () => {
     if (!selectedProduct || !quantity) {
       toast.error("Select product and quantity");
       return;
@@ -44,7 +59,28 @@ const Sales = () => {
       return;
     }
 
-    toast.success("Sale created");
+    try {
+      const qty = Number(quantity);
+
+      await createSale(selectedProduct, qty);
+
+      toast.success("Sale completed successfully");
+
+      // Refresh products
+      const updated = await getProducts();
+      setProducts(updated.data.products);
+
+      // Refresh sales
+      const salesData = await getSales();
+      setSales(salesData.data.sales);
+
+      // reset
+      setSelectedProduct("");
+      setQuantity("");
+
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -113,9 +149,23 @@ const Sales = () => {
             Sales History
           </h2>
 
-          <p className="text-gray-500 text-center py-6">
-            No sales yet
-          </p>
+          {sales.length === 0 ? (
+            <p className="text-gray-500 text-center py-4">
+              No sales yet
+            </p>
+          ):(
+            sales.map((sale) => (
+              <div key={sale._id} className="p-4 border rounded-lg mb-3 bg-white flex justify-between">
+
+                <div>
+                  <h3 className="font-semibold">{sale.productId?.name}</h3>
+                  <p className="text-sm text-gray-500">Qty: {sale.quantity}</p>
+                </div>
+
+                <p className="font-bold">₹{sale.totalAmount}</p>
+              </div>
+            ))
+          )}
 
         </div>
 

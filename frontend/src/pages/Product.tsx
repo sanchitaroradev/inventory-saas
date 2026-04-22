@@ -289,7 +289,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 opacity-0 animate-[fadeIn_0.3s_ease-out_forwards]"
+                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
                     >
 
                         <h2 className="text-lg font-semibold mb-4 text-center">
