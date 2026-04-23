@@ -126,11 +126,11 @@ const Product = () => {
 
             <Navbar />
 
-            <div className="p-10">
+            <div className="max-w-6xl mx-auto px-6 py-10">
                 <h1 className="text-center text-3xl font-bold mb-8 text-gray-800">Products</h1>
 
                 {/* Add Product Card */}
-                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-lg mb-8">
+                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
                     <h2 className="text-center text-lg font-semibold mb-4">Add product</h2>
                     <input
                         value={name}
@@ -163,7 +163,7 @@ const Product = () => {
                     </button>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-lg">
+                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200">
                     <h2 className="text-lg font-semibold mb-4">Product List</h2>
                     {products.length === 0 ? (
                         <p className="text-gray-500 text-center py-4">
@@ -220,7 +220,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        className="bg-white p-6 space-y-4 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
                         <h2 className="text-xl font-semibold mb-4 text-center">
                             Edit Product

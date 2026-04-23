@@ -71,7 +71,7 @@ const Signup = () => {
             </div>
 
             {/* Card */}
-            <div className={`p-8 rounded-2xl w-full max-w-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl
+            <div className={`p-8 rounded-2xl w-full max-w-sm space-y-4 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl
       ${theme === "dark" ? "bg-white/10 backdrop-blur-lg shadow-emerald-400/20" : "bg-white/70 backdrop-blur-md shadow-xl"}`}>
 
                 <h2 className={`text-2xl font-bold mb-6 text-center 

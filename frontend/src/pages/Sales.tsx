@@ -89,20 +89,20 @@ const Sales = () => {
       <Navbar />
 
       {/* Container */}
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-6 py-10">
 
         <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">
           Sales
         </h1>
 
         {/* Create Sale card */}
-        <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-md mb-8">
+        <div className="bg-white/70 space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md mb-8 hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold text-center mb-6">
             Create Sale
           </h2>
 
-          <div className="space-y-4">
+          <div>
 
             {/* Product Dropdown */}
             <select
@@ -143,7 +143,7 @@ const Sales = () => {
         </div>
 
         {/* Sales History */}
-        <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-md">
+        <div className="bg-white/70 space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold mb-4">
             Sales History
