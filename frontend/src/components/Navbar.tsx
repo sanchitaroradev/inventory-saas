@@ -1,30 +1,11 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 const Navbar = () => {
 
     const navigate = useNavigate();
 
-    // const [theme, setTheme] = useState<"light" | "dark">("light");
-    const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
-
-    // const toggleTheme = () => {
-    //     setTheme((prev) => (prev === "light" ? "dark" : "light"));
-    // };
-
-
-    useEffect(() => {
-        const root = document.documentElement;
-
-        if (dark) {
-            root.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            root.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-    }, [dark])
-
+    const {dark,setDark} = useTheme();
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -32,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex justify-between items-center bg-white/70 backdrop-blur-md shadow-md px-8 py-4">
+        <div className="flex justify-between items-center bg-white/70 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 transition backdrop-blur-md shadow-md px-8 py-4">
 
             {/* Logo */}
             <h1

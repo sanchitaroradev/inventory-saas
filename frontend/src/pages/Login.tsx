@@ -3,27 +3,19 @@ import { loginUser } from "../services/authservice";
 import { Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-// import { Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
+import { Sun, Moon } from "lucide-react";
 
 const Login = () => {
 
-  // const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
+   const {dark, setDark} = useTheme();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (dark) {
-  //     document.documentElement.classList.add("dark");
-  //     localStorage.setItem("theme", "dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //     localStorage.setItem("theme", "light");
-  //   }
-  // }, [dark]);
 
   const handleLogin = async () => {
 
@@ -48,14 +40,14 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-linear-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
 
-      {/* <div className="absolute top-5 right-5">
+      <div className="absolute top-5 right-5">
         <button
           onClick={() => setDark(!dark)}
           className="flex items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
         >
           {dark ? <Sun size={16} /> : <Moon size={16} />}
         </button>
-      </div> */}
+      </div>
 
       {/* Card */}
       <div className="p-8 space-y-4 rounded-2xl w-87.5 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-white/70 backdrop-blur-md shadow-xl dark:bg-white/10 dark:backdrop-blur-lg dark:shadow-emerald-400/20">

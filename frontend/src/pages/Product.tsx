@@ -3,6 +3,7 @@ import { IndianRupee, Plus, Trash2, Pencil } from "lucide-react";
 import { createProduct, getProducts, deleteProduct, updateProduct } from "../services/productService";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useTheme } from "../context/ThemeContext";
 
 const Product = () => {
 
@@ -121,36 +122,38 @@ const Product = () => {
         setIsEditOpen(true);
     }
 
+    const {dark} = useTheme();
+
     return (
-        <div className="min-h-screen bg-linear-to-br from-slate-100 via-gray-200 to-slate-300">
+        <div className={`min-h-screen transition-colors duration-300 ${dark ? "bg-gray-900" : "bg-gradient-to-br from-slate-100 via-gray-200 to-slate-300"}`}>
 
             <Navbar />
 
             <div className="max-w-6xl mx-auto px-6 py-10">
-                <h1 className="text-center text-3xl font-bold mb-8 text-gray-800">Products</h1>
+                <h1 className="text-center text-3xl font-bold mb-8 text-gray-800 dark:text-white">Products</h1>
 
                 {/* Add Product Card */}
-                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
+                <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white backdrop-blur-md p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
                     <h2 className="text-center text-lg font-semibold mb-4">Add product</h2>
                     <input
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         placeholder="Enter product name"
-                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={price}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         placeholder="Enter product price"
-                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={stock}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
                         placeholder="Enter product Stock"
-                        className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
 
                     <button
@@ -163,17 +166,17 @@ const Product = () => {
                     </button>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200">
+                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md hover:shadow-lg dark:bg-gray-800 text-gray-800 dark:text-white transition duration-200">
                     <h2 className="text-lg font-semibold mb-4">Product List</h2>
                     {products.length === 0 ? (
-                        <p className="text-gray-500 text-center py-4">
+                        <p className="text-gray-500 dark:text-gray-400 text-center py-4">
                             No products yet. Start by adding one
                         </p>
                     ) : (
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border rounded-lg mb-3 bg-white flex justify-between items-center transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg "
+                                className="p-4 border rounded-lg mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white flex justify-between items-center transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg "
                             >
                                 <div>
                                     <h3 className="font-semibold">{product.name}</h3>
@@ -220,7 +223,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-6 space-y-4 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 space-y-4 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
                         <h2 className="text-xl font-semibold mb-4 text-center">
                             Edit Product
@@ -289,14 +292,14 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
                     >
 
                         <h2 className="text-lg font-semibold mb-4 text-center">
                             Delete Product
                         </h2>
 
-                        <p className="text-gray-500 text-center mb-6">
+                        <p className="text-gray-500 dark:text-gray-300 text-center mb-6">
                             Are you sure you want to delete this product?
                         </p>
 
