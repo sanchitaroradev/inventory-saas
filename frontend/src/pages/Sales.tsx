@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../services/productService";
 import toast from "react-hot-toast";
 import { createSale, getSales } from "../services/saleService";
+import { useTheme } from "../context/ThemeContext";
 
 const Sales = () => {
 
@@ -83,32 +84,34 @@ const Sales = () => {
     }
   };
 
+  const {dark} = useTheme();
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-100 via-gray-200 to-slate-300">
+    <div className={`min-h-screen transition-colors duration-300 ${dark ? "bg-gray-900": "bg-gradient-to-br from-slate-100 via-gray-200 to-slate-300"}`}>
 
       <Navbar />
 
       {/* Container */}
       <div className="max-w-6xl mx-auto px-6 py-10">
 
-        <h1 className="text-3xl font-bold text-center mb-10 text-gray-800">
+        <h1 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
           Sales
         </h1>
 
         {/* Create Sale card */}
-        <div className="bg-white/70 space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md mb-8 hover:shadow-lg transition duration-200">
+        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md mb-8 hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold text-center mb-6">
             Create Sale
           </h2>
 
-          <div>
+          <div className="space-y-4 mt-4">
 
             {/* Product Dropdown */}
             <select
               value={selectedProduct}
               onChange={(e) => setSelectedProduct(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
               <option value="">Select Product</option>
               {products.map((p) => (
@@ -124,11 +127,11 @@ const Sales = () => {
               placeholder="Enter quantity"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             />
 
             {/* Total */}
-            <p className="text-lg font-semibold text-gray-700">
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
               Total: ₹ {total}
             </p>
 
@@ -143,7 +146,7 @@ const Sales = () => {
         </div>
 
         {/* Sales History */}
-        <div className="bg-white/70 space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md hover:shadow-lg transition duration-200">
+        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold mb-4">
             Sales History
@@ -155,11 +158,11 @@ const Sales = () => {
             </p>
           ):(
             sales.map((sale) => (
-              <div key={sale._id} className="p-4 border rounded-lg mb-3 bg-white flex justify-between">
+              <div key={sale._id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white flex justify-between items-center transition">
 
                 <div>
                   <h3 className="font-semibold">{sale.productId?.name}</h3>
-                  <p className="text-sm text-gray-500">Qty: {sale.quantity}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {sale.quantity}</p>
                 </div>
 
                 <p className="font-bold">₹{sale.totalAmount}</p>

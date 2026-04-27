@@ -8,7 +8,7 @@ import { Sun, Moon } from "lucide-react";
 
 const Login = () => {
 
-   const {dark, setDark} = useTheme();
+  const {dark, setDark} = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
