@@ -33,28 +33,28 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-200 to-slate-300 dark:from-gray-900 transition-colors duration-300">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        <h1 className="text-center text-3xl font-bold mb-8 text-gray-800 dark:text-white">Dashboard Overview</h1>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8 text-gray-800 dark:text-white">Dashboard Overview</h1>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
           {/* Card 1 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-6 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Total products</h2>
-            <p className="text-2xl mt-2 font-bold">{stats.totalProducts}</p>
+          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
+            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Total products</h2>
+            <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalProducts}</p>
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-6 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Total sales</h2>
-            <p className="text-2xl mt-2 font-bold">{stats.totalSales}</p>
+          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
+            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Total sales</h2>
+            <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalSales}</p>
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-6 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">Revenue</h2>
-            <p className="flex items-center text-2xl mt-2 font-bold ">
+          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
+            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Revenue</h2>
+            <p className="flex items-center justify-center text-xl sm:text-2xl mt-2 font-bold ">
               <IndianRupee size={21} />
               <span>{stats.totalRevenue}</span>
             </p>

@@ -92,14 +92,14 @@ const Sales = () => {
       <Navbar />
 
       {/* Container */}
-      <div className="max-w-6xl mx-auto px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
 
-        <h1 className="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">
           Sales
         </h1>
 
         {/* Create Sale card */}
-        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md mb-8 hover:shadow-lg transition duration-200">
+        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-5 sm:p-8 rounded-2xl shadow-md mb-8 hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold text-center mb-6">
             Create Sale
@@ -138,7 +138,7 @@ const Sales = () => {
             {/* Button */}
             <button
               onClick={handleSell}
-              className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
+              className="w-full sm:w-fit flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
               Sell Product
             </button>
 
@@ -146,26 +146,26 @@ const Sales = () => {
         </div>
 
         {/* Sales History */}
-        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-8 rounded-2xl shadow-md hover:shadow-lg transition duration-200">
+        <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white space-y-4 backdrop-blur-md p-5 sm:p-8 rounded-2xl shadow-md hover:shadow-lg transition duration-200">
 
           <h2 className="text-lg font-semibold mb-4">
             Sales History
           </h2>
 
           {sales.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">
               No sales yet
             </p>
           ):(
             sales.map((sale) => (
-              <div key={sale._id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white flex justify-between items-center transition">
+              <div key={sale._id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 transition duration-200 hover:shadow-lg">
 
-                <div>
-                  <h3 className="font-semibold">{sale.productId?.name}</h3>
+                <div className="flex flex-col items-start">
+                  <h3 className="font-semibold text-sm sm:text-base">{sale.productId?.name}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Qty: {sale.quantity}</p>
                 </div>
 
-                <p className="font-bold">₹{sale.totalAmount}</p>
+                <p className="font-bold self-end sm:self-auto">₹{sale.totalAmount}</p>
               </div>
             ))
           )}

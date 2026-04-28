@@ -129,11 +129,11 @@ const Product = () => {
 
             <Navbar />
 
-            <div className="max-w-6xl mx-auto px-6 py-10">
-                <h1 className="text-center text-3xl font-bold mb-8 text-gray-800 dark:text-white">Products</h1>
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+                <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8 text-gray-800 dark:text-white">Products</h1>
 
                 {/* Add Product Card */}
-                <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white backdrop-blur-md p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
+                <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
                     <h2 className="text-center text-lg font-semibold mb-4">Add product</h2>
                     <input
                         value={name}
@@ -160,13 +160,13 @@ const Product = () => {
                         type="button"
                         onClick={handleAddProduct}
                         disabled={loading}
-                        className="flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
+                        className="w-full sm:w-fit flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
                         {loading ? (editId ? "Updating..." : "Adding...") : "Add"}
                         <Plus size={17} />
                     </button>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md p-6 rounded-xl shadow-md hover:shadow-lg dark:bg-gray-800 text-gray-800 dark:text-white transition duration-200">
+                <div className="bg-white/70 backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md hover:shadow-lg dark:bg-gray-800 text-gray-800 dark:text-white transition duration-200">
                     <h2 className="text-lg font-semibold mb-4">Product List</h2>
                     {products.length === 0 ? (
                         <p className="text-gray-500 dark:text-gray-400 text-center py-4">
@@ -176,17 +176,17 @@ const Product = () => {
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border rounded-lg mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white flex justify-between items-center transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg "
+                                className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
                             >
-                                <div>
-                                    <h3 className="font-semibold">{product.name}</h3>
-                                    <p className="flex items-center gap-1 text-2xl mt-2 font-bold">
+                                <div className="flex flex-col items-start">
+                                    <h3 className="font-semibold text-base sm:text-lg">{product.name}</h3>
+                                    <p className="flex items-center gap-1 text-lg sm:text-xl mt-1 font-bold text-emerald-500">
                                         <IndianRupee size={21} />
                                         {product.price}
                                     </p>
                                 </div>
 
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 self-end sm:self-auto">
                                     {/* Edit Button*/}
                                     <button
                                         onClick={() => handleEdit(product)}
@@ -223,7 +223,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 space-y-4 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-5 sm:p-6 space-y-4 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
                         <h2 className="text-xl font-semibold mb-4 text-center">
                             Edit Product
@@ -292,7 +292,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-xl w-full max-w-md shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-5 sm:p-6 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
                     >
 
                         <h2 className="text-lg font-semibold mb-4 text-center">

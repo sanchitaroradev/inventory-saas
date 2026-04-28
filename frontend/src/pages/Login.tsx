@@ -38,21 +38,21 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center h-screen bg-linear-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-linear-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
 
       <div className="absolute top-5 right-5">
         <button
           onClick={() => setDark(!dark)}
-          className="flex items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
+          className="flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
         >
           {dark ? <Sun size={16} /> : <Moon size={16} />}
         </button>
       </div>
 
       {/* Card */}
-      <div className="p-8 space-y-4 rounded-2xl w-87.5 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-white/70 backdrop-blur-md shadow-xl dark:bg-white/10 dark:backdrop-blur-lg dark:shadow-emerald-400/20">
+      <div className="p-5 sm:p-8 space-y-4 rounded-2xl w-full max-w-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-white/70 backdrop-blur-md shadow-xl dark:bg-white/10 dark:backdrop-blur-lg dark:shadow-emerald-400/20">
         {/* Title */}
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">Inventory Login </h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">Inventory Login </h2>
 
         {/* Email */}
         <input
@@ -68,7 +68,7 @@ const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Enter password"
-            className="w-full mb-6 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-white dark:border-slate-600"
+            className="w-full mb-4 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-white dark:border-slate-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

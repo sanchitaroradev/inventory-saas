@@ -13,21 +13,21 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex justify-between items-center bg-white/70 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 transition backdrop-blur-md shadow-md px-8 py-4">
+        <div className="flex justify-between items-center bg-white/70 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 transition backdrop-blur-md shadow-md px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
 
             {/* Logo */}
             <h1
                 onClick={() => navigate("/dashboard")}
-                className="text-xl font-bold text-emerald-600 cursor-pointer"
+                className="text-lg sm:text-xl font-bold text-emerald-600 cursor-pointer"
             >Inventory Saas
             </h1>
 
             {/* Right side */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
 
                 <button
                     onClick={() => setDark(!dark)}
-                    className="flex items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
+                    className="flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm"
                 >
                     {dark ? (
                         <>
@@ -42,7 +42,7 @@ const Navbar = () => {
 
                 <button
                     onClick={handleLogout}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 hover:shadow-lg active:scale-95 transition duration-150"
+                    className="bg-red-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg hover:bg-red-600 hover:shadow-lg active:scale-95 transition duration-150"
                 >
                     Logout
                 </button>
