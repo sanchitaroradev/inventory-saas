@@ -68,7 +68,7 @@ const Signup = () => {
             </div>
 
             {/* Card */}
-            <div className={`p-5 sm:p-8 rounded-2xl w-full max-w-sm space-y-4 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl ${dark ? "bg-white/10 backdrop-blur-lg shadow-emerald-400/20" : "bg-white/70 backdrop-blur-md shadow-xl"}`}>
+            <div className={`p-5 sm:p-8 rounded-2xl w-full max-w-sm space-y-4 transition-all duration-300 ease-in-out hover:shadow-2xl ${dark ? "bg-white/10 backdrop-blur-lg shadow-emerald-400/20" : "bg-white/70 backdrop-blur-md shadow-xl"}`}>
 
                 <h2 className={`text-xl sm:text-2xl font-bold mb-6 text-center ${dark ? "text-white" : "text-gray-800"}`}>
                     Create Account
@@ -131,7 +131,7 @@ const Signup = () => {
                 <button
                     onClick={handleSignup}
                     disabled={loading}
-                    className="w-full sm:w-fit bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 font-semibold disabled:opacity-50"
+                    className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 font-semibold disabled:opacity-50"
                 >
                     {loading ? "Creating account..." : "Sign Up"}
                 </button>

@@ -143,21 +143,21 @@ const Product = () => {
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         placeholder="Enter product name"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={price}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         placeholder="Enter product price"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={stock}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
                         placeholder="Enter product Stock"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
 
                     <button
@@ -238,9 +238,9 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 p-5 sm:p-6 space-y-4 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-700 p-5 sm:p-6 space-y-4 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
-                        <h2 className="text-xl font-semibold mb-4 text-center">
+                        <h2 className="text-xl font-semibold mb-4 text-center dark:text-white">
                             Edit Product
                         </h2>
 

@@ -8,7 +8,7 @@ import { Sun, Moon } from "lucide-react";
 
 const Login = () => {
 
-  const {dark, setDark} = useTheme();
+  const { dark, setDark } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +38,7 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br from-slate-100 via-gray-200 to-slate-300 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 
       <div className="absolute top-5 right-5">
         <button
@@ -50,7 +50,7 @@ const Login = () => {
       </div>
 
       {/* Card */}
-      <div className="p-5 sm:p-8 space-y-4 rounded-2xl w-full max-w-sm transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl bg-white/70 backdrop-blur-md shadow-xl dark:bg-white/10 dark:backdrop-blur-lg dark:shadow-emerald-400/20">
+      <div className="p-5 sm:p-8 space-y-4 rounded-2xl w-full max-w-sm transition-all duration-300 ease-in-out hover:shadow-2xl bg-white shadow-xl dark:bg-white/10 dark:backdrop-blur-lg dark:bg-slate-800 dark:shadow-lg dark:shadow-emerald-400/20">
         {/* Title */}
         <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">Inventory Login </h2>
 
@@ -58,7 +58,7 @@ const Login = () => {
         <input
           type="email"
           placeholder="Enter email"
-          className="w-full mb-4 p-3 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-gray-400 dark:border-slate-600"
+          className="w-full mb-4 p-3 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-700 dark:text-white dark:border-slate-600"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -68,7 +68,7 @@ const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Enter password"
-            className="w-full mb-4 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-gray-400 dark:border-slate-600"
+            className="w-full mb-4 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-700 dark:text-white dark:border-slate-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -84,7 +84,7 @@ const Login = () => {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className=" w-full sm:w-fit bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
+          className=" w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
           {loading ? "Logging in..." : "Login"}
         </button>
 
