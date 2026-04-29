@@ -1,6 +1,8 @@
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 export const loginUser =async (email: string, password: string) => {
     const res = await fetch(
-        "https://inventory-saas-backend-ip1s.onrender.com/api/auth/login",
+        `${BASE_URL}/auth/login`,
         {
             method: "POST",
             headers: {
@@ -21,7 +23,7 @@ export const loginUser =async (email: string, password: string) => {
 
 export const registerUser =async (name: string, email: string, password: string) => {
     const res = await fetch(
-        "https://inventory-saas-backend-ip1s.onrender.com/api/auth/register",
+        `${BASE_URL}auth/register`,
         {
             method: "POST",
             headers: {
