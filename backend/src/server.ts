@@ -20,7 +20,10 @@ const limiter = rateLimit({
 
 app.use(express.json());
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin:"*",
+    credentials: true
+}));
 app.use(limiter);
 app.use("/api/auth",authRoutes);
 app.use("/api/products",productRoutes);
