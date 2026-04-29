@@ -11,10 +11,15 @@ const Dashboard = () => {
     totalRevenue: 0,
   });
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        setLoading(true);
+
         const data = await getDashboard();
+
         setStats({
           totalProducts: data.data.totalProducts || 0,
           totalSales: data.data.totalSales || 0,
@@ -22,6 +27,8 @@ const Dashboard = () => {
         });
       } catch (error: any) {
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -39,29 +46,46 @@ const Dashboard = () => {
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          {/* Card 1 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Total products</h2>
-            <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalProducts}</p>
-          </div>
+          {loading ? (
+            // Loading Skeleton
+            [1, 2, 3].map((_, i) => (
+              <div
+                key={i}
+                className="bg-white/70 dark:bg-gray-800 p-5 sm:p-8 rounded-xl shadow-lg pointer-events-none animate-pulse"
+              >
+                <div className="h-4 w-24 mx-auto bg-gray-300 dark:bg-gray-700 rounded mb-4"></div>
+                <div className="h-8 w-16 mx-auto bg-gray-300 dark:bg-gray-700 rounded"></div>
+              </div>
+            ))
+          ) : (
 
-          {/* Card 2 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Total sales</h2>
-            <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalSales}</p>
-          </div>
+            <>
+              {/* Card 1 */}
+              <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-gray-300 hover:shadow-xl transition">
+                <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-400">Total products</h2>
+                <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalProducts}</p>
+              </div>
 
-          {/* Card 3 */}
-          <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-white hover:shadow-xl transition">
-            <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-300">Revenue</h2>
-            <p className="flex items-center justify-center text-xl sm:text-2xl mt-2 font-bold ">
-              <IndianRupee size={21} />
-              <span>{stats.totalRevenue}</span>
-            </p>
-          </div>
+              {/* Card 2 */}
+              <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-gray-300 hover:shadow-xl transition">
+                <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-400">Total sales</h2>
+                <p className="text-xl sm:text-2xl mt-2 text-center font-bold">{stats.totalSales}</p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-white/70 backdrop-blur-md shadow-lg p-5 sm:p-8 rounded-xl dark:bg-gray-800 dark:text-gray-300 hover:shadow-xl transition">
+                <h2 className="text-lg text-center font-semibold text-gray-700 dark:text-gray-400">Revenue</h2>
+                <p className="flex items-center justify-center text-xl sm:text-2xl mt-2 font-bold ">
+                  <IndianRupee size={21} />
+                  <span>{stats.totalRevenue}</span>
+                </p>
+              </div>
+            </>
+          )}
+
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

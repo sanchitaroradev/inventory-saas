@@ -14,16 +14,20 @@ const Product = () => {
     const [editId, setEditId] = useState<string | null>(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
     const [deleteId, setDeleteId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setPageLoading(true);
+
                 const data = await getProducts();
-                console.log(data)
                 setProducts(data.data.products);
             } catch (error: any) {
                 console.log(error.message);
+            } finally {
+                setPageLoading(false);
             }
         };
 
@@ -122,7 +126,7 @@ const Product = () => {
         setIsEditOpen(true);
     }
 
-    const {dark} = useTheme();
+    const { dark } = useTheme();
 
     return (
         <div className={`min-h-screen transition-colors duration-300 ${dark ? "bg-gray-900" : "bg-gradient-to-br from-slate-100 via-gray-200 to-slate-300"}`}>
@@ -133,42 +137,53 @@ const Product = () => {
                 <h1 className="text-center text-2xl sm:text-3xl font-bold mb-8 text-gray-800 dark:text-white">Products</h1>
 
                 {/* Add Product Card */}
-                <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-white backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
+                <div className="bg-white/70 dark:bg-gray-800 text-gray-800 dark:text-gray-400 backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md mb-8 hover:shadow-lg transition duration-200">
                     <h2 className="text-center text-lg font-semibold mb-4">Add product</h2>
                     <input
                         value={name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                         placeholder="Enter product name"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={price}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
                         placeholder="Enter product price"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                     <input
                         value={stock}
                         type="number"
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStock(e.target.value)}
                         placeholder="Enter product Stock"
-                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-white dark:border-gray-600 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="w-full mb-3 p-2 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
 
                     <button
                         type="button"
                         onClick={handleAddProduct}
                         disabled={loading}
-                        className="w-full sm:w-fit flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
+                        className="w-full sm:w-fit flex items-center cursor-pointer justify-center gap-2 bg-emerald-500 text-white px-4 py-2 rounded-xl hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50">
                         {loading ? (editId ? "Updating..." : "Adding...") : "Add"}
                         <Plus size={17} />
                     </button>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md hover:shadow-lg dark:bg-gray-800 text-gray-800 dark:text-white transition duration-200">
+                <div className="bg-white/70 backdrop-blur-md p-5 sm:p-6 rounded-xl shadow-md hover:shadow-lg dark:bg-gray-800 text-gray-800 dark:text-gray-300 transition duration-200">
                     <h2 className="text-lg font-semibold mb-4">Product List</h2>
-                    {products.length === 0 ? (
+                    {pageLoading ? (
+                        // Loading Skeleton
+                        [1, 2, 3, 4].map((_, i) => (
+                            <div
+                                key={i}
+                                className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-3 bg-white dark:bg-gray-800 pointer-events-none animate-pulse"
+                            >
+                                <div className="h-4 w-40 bg-gray-300 dark:bg-gray-700 rounded mb-2"></div>
+                                <div className="h-5 w-24 bg-gray-300 dark:bg-gray-700 rounded"></div>
+                            </div>
+                        ))
+                    ) : products.length === 0 ? (
                         <p className="text-gray-500 dark:text-gray-400 text-center py-4">
                             No products yet. Start by adding one
                         </p>
@@ -176,7 +191,7 @@ const Product = () => {
                         products.map((product) => (
                             <div
                                 key={product._id}
-                                className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-white flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+                                className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl mb-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
                             >
                                 <div className="flex flex-col items-start">
                                     <h3 className="font-semibold text-base sm:text-lg">{product.name}</h3>
@@ -190,14 +205,14 @@ const Product = () => {
                                     {/* Edit Button*/}
                                     <button
                                         onClick={() => handleEdit(product)}
-                                        className="text-blue-500 cursor-pointer hover:scale-110 transition duration-150">
+                                        className="text-blue-500 cursor-pointer hover:scale-95 transition duration-150">
                                         <Pencil size={18} />
                                     </button>
 
                                     {/* Delete Button */}
                                     <button
                                         onClick={() => handleDeleteClick(product._id)}
-                                        className="text-red-500 cursor-pointer hover:text-red-700 hover:scale-110 transition duration-150"
+                                        className="text-red-500 cursor-pointer hover:text-red-700 hover:scale-95 transition duration-150"
                                     >
                                         <Trash2 size={18} />
                                     </button>
@@ -223,7 +238,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-5 sm:p-6 space-y-4 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 p-5 sm:p-6 space-y-4 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]">
 
                         <h2 className="text-xl font-semibold mb-4 text-center">
                             Edit Product
@@ -233,7 +248,7 @@ const Product = () => {
                             value={name}
                             placeholder="Enter product name"
                             onChange={(e) => setName(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-3 p-2 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -241,7 +256,7 @@ const Product = () => {
                             placeholder="Enter product price"
                             type="number"
                             onChange={(e) => setPrice(e.target.value)}
-                            className="w-full mb-3 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-3 p-2 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <input
@@ -249,7 +264,7 @@ const Product = () => {
                             placeholder="Enter product stock"
                             type="number"
                             onChange={(e) => setStock(e.target.value)}
-                            className="w-full mb-4 p-2 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            className="w-full mb-4 p-2 border rounded-xl transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                         />
 
                         <div className="flex justify-between">
@@ -258,7 +273,7 @@ const Product = () => {
                             <button
                                 onClick={handleAddProduct}
                                 disabled={loading}
-                                className="bg-emerald-500 hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 text-white px-4 py-2 rounded-lg cursor-pointer disabled:opacity-50"
+                                className="bg-emerald-500 hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 text-white px-4 py-2 rounded-xl cursor-pointer disabled:opacity-50"
                             >
                                 {loading ? "Saving" : "Save"}
                             </button>
@@ -272,7 +287,7 @@ const Product = () => {
                                     setPrice("");
                                     setStock("");
                                 }}
-                                className="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-500 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50"
+                                className="bg-gray-400 text-white px-4 py-2 rounded-xl cursor-pointer hover:bg-gray-500 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 disabled:opacity-50"
                             >
                                 Cancel
                             </button>
@@ -292,7 +307,7 @@ const Product = () => {
 
                     <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-5 sm:p-6 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
+                        className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 p-5 sm:p-6 rounded-xl w-full max-w-md mx-4 sm:mx-0 shadow-xl transform transition duration-300 scale-95 animate-[fadeIn_0.3s_ease-out_forwards]"
                     >
 
                         <h2 className="text-lg font-semibold mb-4 text-center">
@@ -308,7 +323,7 @@ const Product = () => {
                             {/* CANCEL */}
                             <button
                                 onClick={() => setDeleteId(null)}
-                                className="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-pointer"
+                                className="bg-gray-400 text-white px-4 py-2 rounded-xl active:scale-95 cursor-pointer"
                             >
                                 Cancel
                             </button>
@@ -330,7 +345,7 @@ const Product = () => {
                                         toast.error(error.message);
                                     }
                                 }}
-                                className="bg-red-500 text-white px-4 py-2 rounded-lg cursor-pointer"
+                                className="bg-red-500 text-white px-4 py-2 rounded-xl active:scale-95 cursor-pointer"
                             >
                                 Delete
                             </button>

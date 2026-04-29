@@ -38,12 +38,12 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 bg-linear-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-r from-slate-100 via-gray-200 to-slate-300 dark:bg-slate-900">
 
       <div className="absolute top-5 right-5">
         <button
           onClick={() => setDark(!dark)}
-          className="flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm"
+          className="flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm active:scale-95"
         >
           {dark ? <Sun size={16} /> : <Moon size={16} />}
         </button>
@@ -58,7 +58,7 @@ const Login = () => {
         <input
           type="email"
           placeholder="Enter email"
-          className="w-full mb-4 p-3 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-white dark:border-slate-600"
+          className="w-full mb-4 p-3 border rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-gray-400 dark:border-slate-600"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -68,7 +68,7 @@ const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Enter password"
-            className="w-full mb-4 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-white dark:border-slate-600"
+            className="w-full mb-4 p-3 rounded-lg border transition duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 bg-white border-gray-300 text-black dark:bg-slate-800 dark:text-gray-400 dark:border-slate-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -84,7 +84,7 @@ const Login = () => {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className=" w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
+          className=" w-full sm:w-fit bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600  hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-300 font-semibold cursor-pointer disabled:opacity-50">
           {loading ? "Logging in..." : "Login"}
         </button>
 

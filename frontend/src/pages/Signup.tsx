@@ -131,7 +131,7 @@ const Signup = () => {
                 <button
                     onClick={handleSignup}
                     disabled={loading}
-                    className="w-full bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 font-semibold disabled:opacity-50"
+                    className="w-full sm:w-fit bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition duration-150 font-semibold disabled:opacity-50"
                 >
                     {loading ? "Creating account..." : "Sign Up"}
                 </button>
